@@ -36,15 +36,12 @@ jobs:
         run: |
           msbuild Lure.sln /p:Configuration=Release
 
-      - name: List directory contents before copy
+      - name: List directory contents to locate DLL
         run: |
-          dir Lure\**\Release
+          dir Lure /s
 
-      - name: Copy DLL
-        run: |
-          mkdir output
-          copy Lure\**\Release\Lure.dll output\Lure.dll
-
-      - name: List directory contents after copy
-        run: |
-          dir output
+      - name: Upload DLL as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Lure-dll
+          path: Lure/**/Release/Lure.dll
