@@ -23,13 +23,14 @@ jobs:
           vs-version: 'latest'
 
       - name: Install vcpkg
-        uses: microsoft/vcpkg-action@v11
-        with:
-          vcpkg-args: '--triplet x64-windows'
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          .\vcpkg\bootstrap-vcpkg.bat
+          .\vcpkg\vcpkg integrate install
 
       - name: Install dependencies
         run: |
-          vcpkg install
+          .\vcpkg\vcpkg install
 
       - name: Build with MSBuild
         run: |
