@@ -1,0 +1,40 @@
+name: Build Lure
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Visual Studio
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: 'latest'
+
+      - name: Install vcpkg
+        uses: microsoft/vcpkg-action@v11
+        with:
+          vcpkg-args: '--triplet x64-windows'
+
+      - name: Install dependencies
+        run: |
+          vcpkg install
+
+      - name: Build with MSBuild
+        run: |
+          msbuild Lure.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Copy DLL
+        run: |
+          mkdir output
+          copy Lure/Release/Lure.dll output/Lure.dll
