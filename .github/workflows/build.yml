@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual triggering from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,14 +36,14 @@ jobs:
         run: |
           msbuild Lure.sln /p:Configuration=Release
 
-      - name: List directory contents before copy
+      - name: List all files in the Lure directory
         run: |
-          dir Lure\Release
+          dir Lure /s
 
       - name: Copy DLL
         run: |
           mkdir output
-          copy Lure\Release\Lure.dll output\Lure.dll
+          copy Lure\bin\Release\Lure.dll output\Lure.dll  # Adjust the path based on the actual location
 
       - name: List directory contents after copy
         run: |
@@ -53,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lure-dll
-          path: output/Lure.dll  # Ensure this is relative and correct
+          path: output/Lure.dll
