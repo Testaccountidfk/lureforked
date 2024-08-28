@@ -1,23 +1,40 @@
-name: C/C++ CI
+name: Build Lure
 
 on:
   push:
-    branches: [ "trunk" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "trunk" ]
+    branches:
+      - main
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Visual Studio
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: 'latest'
+
+      - name: Install vcpkg
+        uses: microsoft/vcpkg-action@v11
+        with:
+          vcpkg-args: '--triplet x64-windows'
+
+      - name: Install dependencies
+        run: |
+          vcpkg install
+
+      - name: Build with MSBuild
+        run: |
+          msbuild Lure.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Copy DLL
+        run: |
+          mkdir output
+          copy Lure/Release/Lure.dll output/Lure.dll
