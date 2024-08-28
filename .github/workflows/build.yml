@@ -38,7 +38,7 @@ jobs:
 
       - name: List all files in the Lure directory
         run: |
-          dir /s
+          dir 
 
       - name: Copy DLL
         run: |
