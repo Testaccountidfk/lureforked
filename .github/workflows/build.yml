@@ -38,12 +38,12 @@ jobs:
 
       - name: List directory contents before copy
         run: |
-          dir Lure\**\Release
+          dir Lure\Release
 
       - name: Copy DLL
         run: |
           mkdir output
-          copy Lure\**\Release\Lure.dll output\Lure.dll
+          copy Lure\Release\Lure.dll output\Lure.dll
 
       - name: List directory contents after copy
         run: |
