@@ -34,7 +34,7 @@ jobs:
 
       - name: Build with MSBuild
         run: |
-          msbuild Lure.sln /p:Configuration=Release /p:Platform=x64
+          msbuild Lure.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Copy DLL
         run: |
