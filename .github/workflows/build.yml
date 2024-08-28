@@ -36,10 +36,6 @@ jobs:
         run: |
           msbuild Lure.sln /p:Configuration=Release
 
-      - name: List all files in the Lure directory
-        run: |
-          dir Lure /s
-
       - name: Copy DLL
         run: |
           mkdir output
